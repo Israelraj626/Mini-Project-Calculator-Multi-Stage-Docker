@@ -1,13 +1,17 @@
-version: "3.9"
-
 services:
   calculator:
     build: .
     container_name: calculator_app
     ports:
       - "5000:5000"
-    volumes:
-      - calc-data:/app/logs
+    depends_on:
+      - redis
+    environment:
+      REDIS_HOST: redis
+    mem_limit: 256m
 
-volumes:
-  calc-data:
+  redis:
+    image: redis:7
+    container_name: redis_db
+    mem_limit: 128m
+
